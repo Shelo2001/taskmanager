@@ -26,6 +26,8 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('/task/create', [TaskController::class, 'createTask']);
     Route::get('/tasks/mycreated/{userId}', [TaskController::class, 'getMyCreatedTasks']);
     Route::get('/tasks/{department}', [TaskController::class, 'getMyToDoTasks']);
+    Route::get('/users/all', [AuthenticationController::class, 'getAllUsers']);
+    Route::get('/users/{user}', [AuthenticationController::class, 'getById']);
 
 });
 Route::get('/departments', [DepartmentController::class, 'getDepartments']);

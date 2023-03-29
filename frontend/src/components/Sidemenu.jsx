@@ -49,9 +49,11 @@ function Sidemenu() {
                     mb={{ base: "4", md: "8" }}
                     px={{ base: "4", md: "8" }}
                 >
-                    <Heading size="md" fontWeight="semibold">
-                        TaskManager
-                    </Heading>
+                    <Link to="/">
+                        <Heading size="md" fontWeight="semibold">
+                            TaskManager
+                        </Heading>
+                    </Link>
                 </Flex>
                 <Stack
                     marginRight={"10"}

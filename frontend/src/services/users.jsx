@@ -7,6 +7,7 @@ export const useUsers = create(
         users: [],
         user: {},
         token: null,
+        loading: false,
         errorUser: null,
         fetch: async () => {
             const res = await axios.get(
@@ -25,7 +26,11 @@ export const useUsers = create(
                 set({ user: await res.data.user, token: await res.data.token });
                 window.location.href = "/";
             } catch (error) {
-                set({ errorUser: await error?.response?.data?.error });
+                set({
+                    errorUser:
+                        (await error?.response?.data?.error) ||
+                        (await error?.response?.data?.message),
+                });
             }
         },
         logout: async (data) => {
@@ -41,6 +46,31 @@ export const useUsers = create(
             localStorage.removeItem("token");
             localStorage.removeItem("user");
             window.location.href = "/";
+        },
+        getAllUsers: async () => {
+            const token = localStorage.getItem("token");
+            const res = await axios.get(
+                `${import.meta.env.VITE_BASE_API_URL}/users/all`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            );
+            set({ users: await res.data });
+        },
+        getUserById: async (id) => {
+            set({ loading: true });
+            const token = localStorage.getItem("token");
+            const res = await axios.get(
+                `${import.meta.env.VITE_BASE_API_URL}/users/${id}`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            );
+            set({ user: await res.data, loading: false });
         },
         createUser: async (data) => {
             const res = await axios.post(

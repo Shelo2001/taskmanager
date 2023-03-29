@@ -62,5 +62,13 @@ class AuthenticationController extends Controller
         return response(["message"=>"Successfully logged out"],200);
     }
 
+    public function getById(User $user){
+        return response($user);
+    }
 
+    public function getAllUsers(){
+        $users=User::all();
+
+        return response($users);
+    }
 }
