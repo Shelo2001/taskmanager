@@ -2,6 +2,7 @@ import React from "react";
 import Sidemenu from "./Sidemenu";
 import { AiFillBell } from "react-icons/ai";
 import {
+    Avatar,
     Button,
     IconButton,
     Image,
@@ -10,8 +11,11 @@ import {
     MenuItem,
     MenuList,
 } from "@chakra-ui/react";
+import { useUsers } from "../services/users";
 
 const Navbar = () => {
+    const { logout } = useUsers();
+
     return (
         <div className="header">
             <div className="header-left">
@@ -20,17 +24,27 @@ const Navbar = () => {
             <div className="header-right">
                 <Menu>
                     <MenuButton>
-                        <Image
-                            borderRadius="full"
+                        <IconButton
                             border={"1px solid gray"}
-                            boxSize="50px"
-                            src="https://cdn1.iconfinder.com/data/icons/website-internet/48/website_-_male_user-512.png"
-                            alt="Dan Abramov"
+                            borderRadius="full"
+                            variant={"ghost"}
+                            icon={<AiFillBell size={"20"} />}
                         />
+                        <p className="notifications">0</p>
+                    </MenuButton>
+                    <MenuList>
+                        <p style={{ marginLeft: "10px" }}>
+                            No notifications yet
+                        </p>
+                    </MenuList>
+                </Menu>
+                <Menu>
+                    <MenuButton>
+                        <Avatar bg={"blue.500"} w="40px" height={"40px"} />
                     </MenuButton>
                     <MenuList>
                         <MenuItem>Create new task</MenuItem>
-                        <MenuItem>Logout</MenuItem>
+                        <MenuItem onClick={() => logout()}>Logout</MenuItem>
                     </MenuList>
                 </Menu>
             </div>

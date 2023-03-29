@@ -14,6 +14,9 @@ import { Link } from "react-router-dom";
 function Sidemenu() {
     const { isOpen, onOpen, onClose } = useDisclosure();
 
+    const user = JSON.parse(localStorage.getItem("user"));
+    console.log(user);
+
     return (
         <Box>
             <IconButton
@@ -57,11 +60,13 @@ function Sidemenu() {
                     spacing="4"
                     align="stretch"
                 >
-                    <Button variant="outline" onClick={onClose}>
-                        <Text fontWeight="medium">
-                            <Link to="/admin">Admin</Link>
-                        </Text>
-                    </Button>
+                    {user.is_admin && (
+                        <Button variant="outline" onClick={onClose}>
+                            <Text fontWeight="medium">
+                                <Link to="/admin">Dashboard</Link>
+                            </Text>
+                        </Button>
+                    )}
                     <Button variant="outline" onClick={onClose}>
                         <Text fontWeight="medium">
                             <Link to="/tasks/table">Table view</Link>

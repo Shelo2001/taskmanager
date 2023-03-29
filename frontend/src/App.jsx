@@ -5,6 +5,7 @@ import GuestLayout from "./components/GuestLayout";
 import AdminUsers from "./pages/AdminUsers";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
+import TableView from "./pages/TableView";
 import Task from "./pages/Task";
 
 const router = createBrowserRouter([
@@ -27,6 +28,10 @@ const router = createBrowserRouter([
             {
                 path: "/admin",
                 element: <AdminUsers />,
+            },
+            {
+                path: "/tasks/table",
+                element: <TableView />,
             },
         ],
     },

@@ -11,15 +11,15 @@ class AuthenticationController extends Controller
 {
     public function register(Request $request){
         $attr = $request->validate([
-            'name' => 'required|string|max:255',
+            'name' => 'required|string',
             'email' => 'required|string|email|unique:users,email',
-            'phone_number'=>'required|integer|unique:users,phone_number',
+            'department'=>'required',
             'password' => 'required|string|min:6'
         ]);
 
         $user = User::create([
             'name' => $attr['name'],
-            'phone_number' => $attr['phone_number'],
+            'department' => $attr['department'],
             'password' => bcrypt($attr['password']),
             'email' => $attr['email']
         ]);
