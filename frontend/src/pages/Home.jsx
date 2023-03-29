@@ -1,4 +1,6 @@
 import {
+    Alert,
+    AlertIcon,
     Button,
     FormControl,
     FormLabel,
@@ -22,7 +24,7 @@ import { useTasks } from "../services/tasks";
 
 const Home = () => {
     const { getDepartments, departments } = useDepartments();
-    const { createTask, getMyCreatedTasks } = useTasks();
+    const { createTask, taskError } = useTasks();
     const { isOpen, onOpen, onClose } = useDisclosure();
 
     const [departmentTask, setDepartmentTask] = useState("");
@@ -76,6 +78,12 @@ const Home = () => {
                     <ModalHeader>Create new request</ModalHeader>
                     <ModalCloseButton />
                     <ModalBody>
+                        {taskError && (
+                            <Alert status="error">
+                                <AlertIcon />
+                                {taskError}
+                            </Alert>
+                        )}
                         <FormControl mt={"2"} id="department">
                             <FormLabel>Department</FormLabel>
                             <Select
@@ -131,22 +139,13 @@ const Home = () => {
                     </ModalBody>
 
                     <ModalFooter>
-                        {description.length >= 1 &&
-                        type.length >= 1 &&
-                        departmentTask.length >= 1 &&
-                        title.length >= 1 ? (
-                            <Button
-                                onClick={createTaskHandler}
-                                colorScheme="blue"
-                                mr={3}
-                            >
-                                Create
-                            </Button>
-                        ) : (
-                            <Button isDisabled colorScheme="blue" mr={3}>
-                                Create
-                            </Button>
-                        )}
+                        <Button
+                            onClick={createTaskHandler}
+                            colorScheme="blue"
+                            mr={3}
+                        >
+                            Create
+                        </Button>
                     </ModalFooter>
                 </ModalContent>
             </Modal>

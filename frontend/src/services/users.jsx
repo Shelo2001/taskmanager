@@ -7,6 +7,7 @@ export const useUsers = create(
         users: [],
         user: {},
         token: null,
+        errorUser: null,
         fetch: async () => {
             const res = await axios.get(
                 `${import.meta.env.VITE_BASE_API_URL}/users`
@@ -14,14 +15,18 @@ export const useUsers = create(
             set({ users: await res.data });
         },
         login: async (data) => {
-            const res = await axios.post(
-                `${import.meta.env.VITE_BASE_API_URL}/login`,
-                data
-            );
-            localStorage.setItem("token", res.data.token);
-            localStorage.setItem("user", JSON.stringify(res.data.user));
-            set({ user: await res.data.user, token: await res.data.token });
-            window.location.href = "/";
+            try {
+                const res = await axios.post(
+                    `${import.meta.env.VITE_BASE_API_URL}/login`,
+                    data
+                );
+                localStorage.setItem("token", res.data.token);
+                localStorage.setItem("user", JSON.stringify(res.data.user));
+                set({ user: await res.data.user, token: await res.data.token });
+                window.location.href = "/";
+            } catch (error) {
+                set({ errorUser: await error?.response?.data?.error });
+            }
         },
         logout: async (data) => {
             const token = localStorage.getItem("token");

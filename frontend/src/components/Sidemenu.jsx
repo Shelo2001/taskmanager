@@ -15,10 +15,9 @@ function Sidemenu() {
     const { isOpen, onOpen, onClose } = useDisclosure();
 
     const user = JSON.parse(localStorage.getItem("user"));
-    console.log(user);
 
     return (
-        <Box>
+        <Box zIndex={"10000"}>
             <IconButton
                 aria-label="Toggle side menu"
                 icon={<AiFillBehanceSquare />}

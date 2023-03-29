@@ -26,3 +26,17 @@ a {
     color: white;
     padding-right: 8px;
 }
+::-webkit-scrollbar {
+    width: 8px;
+    background-color: #7e8287;
+    border-radius: 100px;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: rgb(100, 137, 231);
+    border-radius: 8px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background-color: rgb(100, 137, 231);
+}

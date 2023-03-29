@@ -29,12 +29,12 @@ class TaskController extends Controller
     }
 
     public function getMyCreatedTasks($userId){
-        $tasks = Task::where('user_id',$userId)->with('user')->get();
+        $tasks = Task::where('user_id',$userId)->orderBy('created_at', 'desc')->with('user')->get();
         return response($tasks);
     }
 
     public function getMyToDoTasks($department){
-        $tasks = Task::where('department',$department)->with('user')->get();
+        $tasks = Task::where('department',$department)->orderBy('created_at', 'desc')->with('user')->get();
         return response($tasks);
     }
 }

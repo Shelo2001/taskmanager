@@ -5,19 +5,24 @@ import axios from "axios";
 export const useTasks = create(
     devtools((set) => ({
         myCreatedTasks: [],
+        taskError: null,
         departmentToDoTasks: [],
         createTask: async (data) => {
-            const token = localStorage.getItem("token");
-            const res = await axios.post(
-                `${import.meta.env.VITE_BASE_API_URL}/task/create`,
-                data,
-                {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
-                }
-            );
-            window.location.href = "/";
+            try {
+                const token = localStorage.getItem("token");
+                const res = await axios.post(
+                    `${import.meta.env.VITE_BASE_API_URL}/task/create`,
+                    data,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                        },
+                    }
+                );
+                window.location.href = "/";
+            } catch (error) {
+                set({ taskError: error.response.data.message });
+            }
         },
         getMyCreatedTasks: async () => {
             const token = localStorage.getItem("token");

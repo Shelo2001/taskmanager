@@ -24,6 +24,7 @@ class User extends Authenticatable
         'password',
         'department',
         'is_admin',
+        'is_active'
     ];
 
     /**

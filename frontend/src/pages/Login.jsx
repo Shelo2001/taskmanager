@@ -12,6 +12,8 @@ import {
     Avatar,
     FormControl,
     InputRightElement,
+    Alert,
+    AlertIcon,
 } from "@chakra-ui/react";
 import { FaUserAlt, FaLock } from "react-icons/fa";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
@@ -24,7 +26,9 @@ const Login = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const handleShowClick = () => setShowPassword(!showPassword);
-    const { login } = useUsers();
+    const { login, errorUser } = useUsers();
+
+    console.log(errorUser);
 
     const loginHandler = (e) => {
         e.preventDefault();
@@ -48,6 +52,12 @@ const Login = () => {
             >
                 <Avatar bg="blue.500" />
                 <Heading color="blue.400">Task Manager</Heading>
+                {errorUser && (
+                    <Alert status="error">
+                        <AlertIcon />
+                        {errorUser}
+                    </Alert>
+                )}
                 <Box minW={{ base: "90%", md: "468px" }}>
                     <form>
                         <Stack
@@ -69,7 +79,7 @@ const Login = () => {
                                             setEmail(e.target.value)
                                         }
                                         type="email"
-                                        placeholder="email address"
+                                        placeholder="Email address"
                                     />
                                 </InputGroup>
                             </FormControl>
