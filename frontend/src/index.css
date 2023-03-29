@@ -1,0 +1,13 @@
+.header {
+    display: flex;
+    justify-content: space-between;
+    margin: 20px;
+}
+.header-right {
+    display: flex;
+    gap: 20px;
+}
+a {
+    text-decoration: none;
+    color: inherit;
+}
