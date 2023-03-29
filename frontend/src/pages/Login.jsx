@@ -47,7 +47,7 @@ const Login = () => {
                 alignItems="center"
             >
                 <Avatar bg="blue.500" />
-                <Heading color="blue.400">Welcome</Heading>
+                <Heading color="blue.400">Task Manager</Heading>
                 <Box minW={{ base: "90%", md: "468px" }}>
                     <form>
                         <Stack
@@ -107,7 +107,6 @@ const Login = () => {
                                 </InputGroup>
                             </FormControl>
                             <Button
-                                borderRadius={0}
                                 type="submit"
                                 variant="solid"
                                 colorScheme="blue"

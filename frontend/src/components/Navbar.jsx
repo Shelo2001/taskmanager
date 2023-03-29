@@ -30,7 +30,7 @@ const Navbar = () => {
                             variant={"ghost"}
                             icon={<AiFillBell size={"20"} />}
                         />
-                        <p className="notifications">0</p>
+                        <p className="notifications">7</p>
                     </MenuButton>
                     <MenuList>
                         <p style={{ marginLeft: "10px" }}>
@@ -43,7 +43,6 @@ const Navbar = () => {
                         <Avatar bg={"blue.500"} w="40px" height={"40px"} />
                     </MenuButton>
                     <MenuList>
-                        <MenuItem>Create new task</MenuItem>
                         <MenuItem onClick={() => logout()}>Logout</MenuItem>
                     </MenuList>
                 </Menu>

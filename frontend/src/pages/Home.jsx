@@ -1,16 +1,135 @@
-import React, { useEffect } from "react";
+import {
+    Button,
+    FormControl,
+    FormLabel,
+    Input,
+    Modal,
+    ModalBody,
+    ModalCloseButton,
+    ModalContent,
+    ModalFooter,
+    ModalHeader,
+    ModalOverlay,
+    Select,
+    Textarea,
+    useDisclosure,
+} from "@chakra-ui/react";
+import React, { useEffect, useState } from "react";
 import KanbanView from "../components/KanbanView";
 import Navbar from "../components/Navbar";
-import { useUsers } from "../services/users";
+import { useDepartments } from "../services/departments";
 
 const Home = () => {
-    const { users } = useUsers();
+    const { getDepartments, departments } = useDepartments();
+    const { isOpen, onOpen, onClose } = useDisclosure();
 
-    useEffect(() => {}, []);
+    const [departmentTask, setDepartmentTask] = useState("");
+    const [title, setTitle] = useState("");
+    const [description, setDescription] = useState("");
+    const [type, setType] = useState("");
+
+    useEffect(() => {
+        getDepartments();
+    }, []);
 
     return (
         <div>
             <Navbar />
+            <Button
+                mt={"10"}
+                mb="10"
+                ml={"20%"}
+                colorScheme={"blue"}
+                borderRadius="full"
+                onClick={onOpen}
+            >
+                + Create new request
+            </Button>
+            <Modal
+                isOpen={isOpen}
+                onClose={() => {
+                    onClose();
+                    setDepartmentTask("");
+                    setDescription("");
+                    setTitle("");
+                    setType("");
+                }}
+            >
+                <ModalOverlay />
+                <ModalContent>
+                    <ModalHeader>Create new request</ModalHeader>
+                    <ModalCloseButton />
+                    <ModalBody>
+                        <FormControl mt={"2"} id="department">
+                            <FormLabel>Department</FormLabel>
+                            <Select
+                                placeholder="Select department"
+                                onChange={(e) =>
+                                    setDepartmentTask(e.target.value)
+                                }
+                                type="department"
+                            >
+                                {departments.map((department) => (
+                                    <option key={department.id}>
+                                        {department.title}
+                                    </option>
+                                ))}
+                            </Select>
+                        </FormControl>
+
+                        <FormControl mt={"2"} id="title">
+                            <FormLabel>Request Title</FormLabel>
+                            <Input
+                                placeholder="title"
+                                type="title"
+                                onChange={(e) => setTitle(e.target.value)}
+                            />
+                        </FormControl>
+
+                        <FormControl mt={"2"} id="desc">
+                            <FormLabel>Request Description</FormLabel>
+                            <Textarea
+                                type="desc"
+                                placeholder={
+                                    departmentTask.length >= 0
+                                        ? `I have issues in ${departmentTask} field`
+                                        : "Some other issues"
+                                }
+                                onChange={(e) => setDescription(e.target.value)}
+                            />
+                        </FormControl>
+
+                        <FormControl mt={"2"} id="type">
+                            <FormLabel>Type</FormLabel>
+                            <Select
+                                placeholder="Select type"
+                                onChange={(e) => setType(e.target.value)}
+                                type="type"
+                            >
+                                <option>Urgent</option>
+                                <option>High priority</option>
+                                <option>Low priority</option>
+                                <option>Not critical</option>
+                            </Select>
+                        </FormControl>
+                    </ModalBody>
+
+                    <ModalFooter>
+                        {description.length >= 1 &&
+                        type.length >= 1 &&
+                        departmentTask.length >= 1 &&
+                        title.length >= 1 ? (
+                            <Button colorScheme="blue" mr={3}>
+                                Create
+                            </Button>
+                        ) : (
+                            <Button isDisabled colorScheme="blue" mr={3}>
+                                Create
+                            </Button>
+                        )}
+                    </ModalFooter>
+                </ModalContent>
+            </Modal>
             <KanbanView />
         </div>
     );

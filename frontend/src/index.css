@@ -17,12 +17,12 @@ a {
 .notifications {
     position: absolute;
     top: -4px;
-    right: 70px;
+    right: 68px;
     border: 1px solid rgb(228, 81, 81);
     border-radius: 100px;
-    padding-left: 6px;
+    padding-left: 8px;
     z-index: 1;
     background-color: rgb(228, 81, 81);
     color: white;
-    padding-right: 6px;
+    padding-right: 8px;
 }
