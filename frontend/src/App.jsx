@@ -5,6 +5,7 @@ import GuestLayout from "./components/GuestLayout";
 import AdminUsers from "./pages/AdminUsers";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
+import NotFound from "./pages/NotFound";
 import TableView from "./pages/TableView";
 import Task from "./pages/Task";
 
@@ -44,6 +45,10 @@ const router = createBrowserRouter([
                 element: <Login />,
             },
         ],
+    },
+    {
+        path: "/*",
+        element: <NotFound />,
     },
 ]);
 

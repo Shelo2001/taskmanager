@@ -109,20 +109,23 @@ function AdminUsers() {
                     {loading ? (
                         <h1>Loading...</h1>
                     ) : (
-                        <ModalBody pb={6}>{adminUser.name}</ModalBody>
+                        <>
+                            <ModalBody pb={6}>{adminUser.name}</ModalBody>
+
+                            <ModalFooter>
+                                {adminUser.is_active ? (
+                                    <Button colorScheme="red" mr={3}>
+                                        Deactivate
+                                    </Button>
+                                ) : (
+                                    <Button colorScheme="teal" mr={3}>
+                                        Activate
+                                    </Button>
+                                )}
+                                <Button onClick={onClose}>Cancel</Button>
+                            </ModalFooter>
+                        </>
                     )}
-                    <ModalFooter>
-                        {adminUser.is_active ? (
-                            <Button colorScheme="red" mr={3}>
-                                Deactivate
-                            </Button>
-                        ) : (
-                            <Button colorScheme="teal" mr={3}>
-                                Activate
-                            </Button>
-                        )}
-                        <Button onClick={onClose}>Cancel</Button>
-                    </ModalFooter>
                 </ModalContent>
             </Modal>
         </div>
