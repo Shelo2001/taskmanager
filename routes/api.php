@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\TaskController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\AuthenticationController;
 
@@ -22,5 +23,9 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         return auth()->user();
     });
     Route::get('/logout', [AuthenticationController::class, 'logout']);
+    Route::post('/task/create', [TaskController::class, 'createTask']);
+    Route::get('/tasks/mycreated/{userId}', [TaskController::class, 'getMyCreatedTasks']);
+    Route::get('/tasks/{department}', [TaskController::class, 'getMyToDoTasks']);
+
 });
 Route::get('/departments', [DepartmentController::class, 'getDepartments']);

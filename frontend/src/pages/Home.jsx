@@ -18,9 +18,11 @@ import React, { useEffect, useState } from "react";
 import KanbanView from "../components/KanbanView";
 import Navbar from "../components/Navbar";
 import { useDepartments } from "../services/departments";
+import { useTasks } from "../services/tasks";
 
 const Home = () => {
     const { getDepartments, departments } = useDepartments();
+    const { createTask, getMyCreatedTasks } = useTasks();
     const { isOpen, onOpen, onClose } = useDisclosure();
 
     const [departmentTask, setDepartmentTask] = useState("");
@@ -31,6 +33,20 @@ const Home = () => {
     useEffect(() => {
         getDepartments();
     }, []);
+
+    const createTaskHandler = () => {
+        let user = JSON.parse(localStorage.getItem("user"));
+        let user_id = user.id;
+
+        const data = {
+            department: departmentTask,
+            title,
+            description,
+            type,
+            user_id,
+        };
+        createTask(data);
+    };
 
     return (
         <div>
@@ -119,7 +135,11 @@ const Home = () => {
                         type.length >= 1 &&
                         departmentTask.length >= 1 &&
                         title.length >= 1 ? (
-                            <Button colorScheme="blue" mr={3}>
+                            <Button
+                                onClick={createTaskHandler}
+                                colorScheme="blue"
+                                mr={3}
+                            >
                                 Create
                             </Button>
                         ) : (

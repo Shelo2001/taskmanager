@@ -1,32 +1,245 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
+    Avatar,
+    Badge,
     Box,
     Center,
     Divider,
     Flex,
+    Link,
     StackDivider,
     Text,
 } from "@chakra-ui/react";
+import { useTasks } from "../services/tasks";
+import { Link as ReachLink } from "react-router-dom";
 
 const KanbanView = () => {
+    const {
+        myCreatedTasks,
+        getMyCreatedTasks,
+        departmentToDoTasks,
+        getMyToDoTasks,
+    } = useTasks();
+
+    useEffect(() => {
+        getMyCreatedTasks();
+        getMyToDoTasks();
+    }, []);
+
     return (
         <div>
             <Flex marginTop={"10"} w={"80%"} float="right">
-                <Box p="4" w="30%" bgColor="gray.200" mr="4" borderRadius="md">
+                <Box
+                    p="4"
+                    maxH="700px"
+                    overflow="auto"
+                    w="30%"
+                    bgColor="gray.200"
+                    mr="4"
+                    borderRadius="md"
+                >
                     <Text mb="4" fontSize={"2xl"} fontWeight="semibold">
                         My requests
                     </Text>
                     <Divider borderColor={"gray.800"} />
-                    <Text mt={"4"}></Text>
+                    {myCreatedTasks.map((myTask) => (
+                        <Box
+                            mt={"2.5"}
+                            borderWidth="1px"
+                            borderRadius="lg"
+                            overflow="hidden"
+                            bg="white"
+                            borderColor="gray.200"
+                        >
+                            <Box p="6">
+                                <Link as={ReachLink} to={`/task/${myTask.id}`}>
+                                    <Box d="flex" alignItems="baseline">
+                                        {myTask.status ===
+                                        "Waiting for assignee" ? (
+                                            <Badge
+                                                borderRadius="full"
+                                                px="2"
+                                                colorScheme="red"
+                                            >
+                                                {myTask.status}
+                                            </Badge>
+                                        ) : myTask.status === "In progress" ? (
+                                            <Badge
+                                                borderRadius="full"
+                                                px="2"
+                                                colorScheme="blue"
+                                            >
+                                                {myTask.status}
+                                            </Badge>
+                                        ) : (
+                                            <Badge
+                                                borderRadius="full"
+                                                px="2"
+                                                colorScheme="teal"
+                                            >
+                                                {myTask.status}
+                                            </Badge>
+                                        )}
+                                        <Text
+                                            ml="2"
+                                            textTransform="uppercase"
+                                            fontSize="sm"
+                                            fontWeight="bold"
+                                            color="gray.500"
+                                        >
+                                            {myTask.department}
+                                        </Text>
+                                    </Box>
+                                    <Box mt="4">
+                                        <Text fontWeight="bold" fontSize="2xl">
+                                            {myTask.title}
+                                        </Text>
+                                        <Text mt="2" color="gray.600">
+                                            {myTask.description}
+                                        </Text>
+                                    </Box>
+                                </Link>
+                                <Divider mt={"5px"} />
+                                <Flex
+                                    mt="4"
+                                    alignItems="center"
+                                    justifyContent="space-between"
+                                    color="gray.600"
+                                >
+                                    <Flex alignItems="center">
+                                        <Avatar
+                                            size="sm"
+                                            name={`${myTask.user.name}`}
+                                            bg="blue.500"
+                                        />
+                                        <Text
+                                            ml="2"
+                                            fontSize="sm"
+                                            fontWeight="medium"
+                                        >
+                                            {myTask.user.name}
+                                        </Text>
+                                    </Flex>
+                                    <Text fontSize="sm" fontWeight="medium">
+                                        Department: {myTask.user.department}
+                                    </Text>
+                                </Flex>
+                            </Box>
+                        </Box>
+                    ))}
                 </Box>
-                <Box p="4" w="30%" bgColor="gray.200" mr="4" borderRadius="md">
+                <Box
+                    p="4"
+                    maxH="700px"
+                    overflow="auto"
+                    w="30%"
+                    bgColor="gray.200"
+                    mr="4"
+                    borderRadius="md"
+                >
                     <Text mb="4" fontSize={"2xl"} fontWeight="semibold">
                         My tasks
                     </Text>
                     <Divider borderColor={"gray.800"} />
-                    <Text mt={"4"}></Text>
+                    {departmentToDoTasks.map((departmentToDoTask) => (
+                        <Box
+                            mt={"2.5"}
+                            borderWidth="1px"
+                            borderRadius="lg"
+                            overflow="hidden"
+                            bg="white"
+                            borderColor="gray.200"
+                        >
+                            <Box p="6">
+                                <Link
+                                    as={ReachLink}
+                                    to={`/task/${departmentToDoTask.id}`}
+                                >
+                                    <Box d="flex" alignItems="baseline">
+                                        {departmentToDoTask.status ===
+                                        "Waiting for assignee" ? (
+                                            <Badge
+                                                borderRadius="full"
+                                                px="2"
+                                                colorScheme="red"
+                                            >
+                                                {departmentToDoTask.status}
+                                            </Badge>
+                                        ) : departmentToDoTask.status ===
+                                          "In progress" ? (
+                                            <Badge
+                                                borderRadius="full"
+                                                px="2"
+                                                colorScheme="blue"
+                                            >
+                                                {departmentToDoTask.status}
+                                            </Badge>
+                                        ) : (
+                                            <Badge
+                                                borderRadius="full"
+                                                px="2"
+                                                colorScheme="teal"
+                                            >
+                                                {departmentToDoTask.status}
+                                            </Badge>
+                                        )}
+                                        <Text
+                                            ml="2"
+                                            textTransform="uppercase"
+                                            fontSize="sm"
+                                            fontWeight="bold"
+                                            color="gray.500"
+                                        >
+                                            {departmentToDoTask.department}
+                                        </Text>
+                                    </Box>
+                                    <Box mt="4">
+                                        <Text fontWeight="bold" fontSize="2xl">
+                                            {departmentToDoTask.title}
+                                        </Text>
+                                        <Text mt="2" color="gray.600">
+                                            {departmentToDoTask.description}
+                                        </Text>
+                                    </Box>
+                                </Link>
+                                <Divider mt={"5px"} />
+                                <Flex
+                                    mt="4"
+                                    alignItems="center"
+                                    justifyContent="space-between"
+                                    color="gray.600"
+                                >
+                                    <Flex alignItems="center">
+                                        <Avatar
+                                            size="sm"
+                                            name={`${departmentToDoTask.user.name}`}
+                                            bg="blue.500"
+                                        />
+                                        <Text
+                                            ml="2"
+                                            fontSize="sm"
+                                            fontWeight="medium"
+                                        >
+                                            {departmentToDoTask.user.name}
+                                        </Text>
+                                    </Flex>
+                                    <Text fontSize="sm" fontWeight="medium">
+                                        Department:{" "}
+                                        {departmentToDoTask.user.department}
+                                    </Text>
+                                </Flex>
+                            </Box>
+                        </Box>
+                    ))}
                 </Box>
-                <Box p="4" w="30%" bgColor="gray.200" borderRadius="md">
+                <Box
+                    p="4"
+                    maxH="700px"
+                    overflow="auto"
+                    w="30%"
+                    bgColor="gray.200"
+                    borderRadius="md"
+                >
                     <Text mb="4" fontSize={"2xl"} fontWeight="semibold">
                         Tasks to do
                     </Text>

@@ -15,6 +15,7 @@ import { useUsers } from "../services/users";
 
 const Navbar = () => {
     const { logout } = useUsers();
+    const user = JSON.parse(localStorage.getItem("user"));
 
     return (
         <div className="header">
@@ -30,7 +31,7 @@ const Navbar = () => {
                             variant={"ghost"}
                             icon={<AiFillBell size={"20"} />}
                         />
-                        <p className="notifications">7</p>
+                        <p className="notifications">0</p>
                     </MenuButton>
                     <MenuList>
                         <p style={{ marginLeft: "10px" }}>
@@ -40,7 +41,13 @@ const Navbar = () => {
                 </Menu>
                 <Menu>
                     <MenuButton>
-                        <Avatar bg={"blue.500"} w="40px" height={"40px"} />
+                        <Avatar
+                            name={`${user.name}`}
+                            bg={"blue.500"}
+                            w="40px"
+                            color={"white"}
+                            height={"40px"}
+                        />
                     </MenuButton>
                     <MenuList>
                         <MenuItem onClick={() => logout()}>Logout</MenuItem>
