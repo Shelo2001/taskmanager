@@ -38,7 +38,12 @@ const KanbanView = () => {
                     mr="4"
                     borderRadius="md"
                 >
-                    <Text mb="4" fontSize={"2xl"} fontWeight="semibold">
+                    <Text
+                        mb="4"
+                        fontSize={"xl"}
+                        textTransform="uppercase"
+                        fontWeight="semibold"
+                    >
                         My requests
                     </Text>
                     <Divider borderColor={"gray.800"} />
@@ -95,7 +100,11 @@ const KanbanView = () => {
                                             {myTask.title}
                                         </Text>
                                         <Text mt="2" color="gray.600">
-                                            {myTask.description}
+                                            {myTask.description.substring(
+                                                0,
+                                                40
+                                            )}
+                                            ...
                                         </Text>
                                     </Box>
                                 </Link>
@@ -137,8 +146,13 @@ const KanbanView = () => {
                     mr="4"
                     borderRadius="md"
                 >
-                    <Text mb="4" fontSize={"2xl"} fontWeight="semibold">
-                        My tasks
+                    <Text
+                        mb="4"
+                        fontSize={"xl"}
+                        textTransform="uppercase"
+                        fontWeight="semibold"
+                    >
+                        Tasks to do
                     </Text>
                     <Divider borderColor={"gray.800"} />
                     {departmentToDoTasks.map((departmentToDoTask) => (
@@ -198,7 +212,11 @@ const KanbanView = () => {
                                             {departmentToDoTask.title}
                                         </Text>
                                         <Text mt="2" color="gray.600">
-                                            {departmentToDoTask.description}
+                                            {departmentToDoTask.description.substring(
+                                                0,
+                                                40
+                                            )}
+                                            ...
                                         </Text>
                                     </Box>
                                 </Link>
@@ -240,8 +258,13 @@ const KanbanView = () => {
                     bgColor="gray.200"
                     borderRadius="md"
                 >
-                    <Text mb="4" fontSize={"2xl"} fontWeight="semibold">
-                        Tasks to do
+                    <Text
+                        mb="4"
+                        fontSize={"xl"}
+                        textTransform="uppercase"
+                        fontWeight="semibold"
+                    >
+                        My Tasks
                     </Text>
                     <Divider borderColor={"gray.800"} />
                     <Text mt={"4"}></Text>
