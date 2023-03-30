@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Sidemenu from "./Sidemenu";
 import { AiFillBell } from "react-icons/ai";
 import {
@@ -12,11 +12,29 @@ import {
     MenuList,
 } from "@chakra-ui/react";
 import { useUsers } from "../services/users";
+import Pusher from "pusher-js";
 
 const Navbar = () => {
     const { logout } = useUsers();
+    const [notifications, setNotifications] = useState([]);
     const user = JSON.parse(localStorage.getItem("user"));
+    let allNotifications = [];
+    useEffect(() => {
+        const user = JSON.parse(localStorage.getItem("user"));
 
+        const pusher = new Pusher("048daae321b9583af0c9", {
+            cluster: "eu",
+        });
+
+        const channel = pusher.subscribe(`department.${user?.department}`);
+        channel.bind(`notification`, function (data) {
+            setNotifications((prevNotifications) => [
+                ...prevNotifications,
+                data,
+            ]);
+        });
+    }, []);
+    console.log(notifications);
     return (
         <div className="header">
             <div className="header-left">
@@ -31,11 +49,15 @@ const Navbar = () => {
                             variant={"ghost"}
                             icon={<AiFillBell size={"20"} />}
                         />
-                        <p className="notifications">0</p>
+                        <p className="notifications">{notifications.length}</p>
                     </MenuButton>
                     <MenuList>
                         <p style={{ marginLeft: "10px" }}>
-                            No notifications yet
+                            {notifications.length === 0
+                                ? "No notifications yet"
+                                : notifications.map((notification) => (
+                                      <p>{notification.notification}</p>
+                                  ))}
                         </p>
                     </MenuList>
                 </Menu>

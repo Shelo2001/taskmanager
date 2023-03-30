@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Task;
 use App\Models\User;
 use Illuminate\Http\Request;
+use App\Events\NotificationsForDepartmentsEvent;
 
 class TaskController extends Controller
 {
@@ -24,6 +25,9 @@ class TaskController extends Controller
             'department' => $attr['department'],
             'user_id' => $attr['user_id']
         ]);
+
+
+            event(new NotificationsForDepartmentsEvent($attr['department'], "New task in your department"));
         
         return response($task,201);
     }

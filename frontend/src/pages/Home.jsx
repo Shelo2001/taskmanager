@@ -21,6 +21,7 @@ import KanbanView from "../components/KanbanView";
 import Navbar from "../components/Navbar";
 import { useDepartments } from "../services/departments";
 import { useTasks } from "../services/tasks";
+import Pusher from "pusher-js";
 
 const Home = () => {
     const { getDepartments, departments } = useDepartments();
