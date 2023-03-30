@@ -12,6 +12,8 @@ import {
     VStack,
 } from "@chakra-ui/react";
 import { BiArrowBack } from "react-icons/bi";
+import Pusher from "pusher-js";
+import axios from "axios";
 
 const Chat = () => {
     const { id } = useParams();
@@ -20,10 +22,7 @@ const Chat = () => {
         navigate(`/task/${id}`);
     };
 
-    const [messages, setMessages] = useState([
-        { id: 1, author: "John", text: "Hello" },
-        { id: 2, author: "Jane", text: "Hi there" },
-    ]);
+    const [messages, setMessages] = useState([]);
     const [newMessage, setNewMessage] = useState("");
 
     const messagesEndRef = useRef(null);
@@ -32,15 +31,28 @@ const Chat = () => {
         messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
     }, [messages]);
 
+    useEffect(() => {
+        const pusher = new Pusher("048daae321b9583af0c9", {
+            cluster: "eu",
+        });
+
+        const channel = pusher.subscribe(`chat.${id}`);
+        channel.bind(`message`, function (data) {
+            setMessages((prevMessages) => [...prevMessages, data]);
+        });
+    }, []);
+
     const handleNewMessage = () => {
-        const newId = messages.length + 1;
-        const newAuthor = "Me";
+        const user = JSON.parse(localStorage.getItem("user"));
+
         const newText = newMessage;
-        setMessages([
-            ...messages,
-            { id: newId, author: newAuthor, text: newText },
-        ]);
+
         setNewMessage("");
+        axios.post(`${import.meta.env.VITE_BASE_API_URL}/chat/${id}`, {
+            id,
+            user: user.name,
+            message: newText,
+        });
     };
 
     return (

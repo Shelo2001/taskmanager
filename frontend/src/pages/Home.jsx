@@ -65,6 +65,7 @@ const Home = () => {
                 + Create new request
             </Button>
             <Modal
+                size={"2xl"}
                 isOpen={isOpen}
                 onClose={() => {
                     onClose();

@@ -3,11 +3,10 @@ import Sidemenu from "./Sidemenu";
 import { AiFillBell } from "react-icons/ai";
 import {
     Avatar,
-    Button,
     IconButton,
-    Image,
     Menu,
     MenuButton,
+    MenuDivider,
     MenuItem,
     MenuList,
 } from "@chakra-ui/react";
@@ -19,7 +18,6 @@ const Navbar = () => {
     const { logout } = useUsers();
     const [notifications, setNotifications] = useState([]);
     const user = JSON.parse(localStorage.getItem("user"));
-    let allNotifications = [];
     useEffect(() => {
         const user = JSON.parse(localStorage.getItem("user"));
 
@@ -36,7 +34,11 @@ const Navbar = () => {
             ]);
         });
     }, []);
-    console.log(notifications);
+
+    const clearAllNotifications = () => {
+        setNotifications([]);
+    };
+
     return (
         <div className="header">
             <div className="header-left">
@@ -54,20 +56,28 @@ const Navbar = () => {
                         <p className="notifications">{notifications.length}</p>
                     </MenuButton>
                     <MenuList>
-                        <p style={{ marginLeft: "10px" }}>
-                            {notifications.length === 0
-                                ? "No notifications yet"
-                                : notifications.map((notification) => (
-                                      <MenuItem>
-                                          <Link
-                                              to={`/task/${notification?.notification?.id}`}
-                                          >
-                                              New task -{" "}
-                                              {notification?.notification?.id}
-                                          </Link>
-                                      </MenuItem>
-                                  ))}
-                        </p>
+                        <MenuItem onClick={clearAllNotifications}>
+                            Clear
+                        </MenuItem>
+                        <MenuDivider />
+                        {notifications.length === 0 ? (
+                            <p style={{ marginLeft: "10px" }}>
+                                No notifications yet
+                            </p>
+                        ) : (
+                            notifications.map((notification) => (
+                                <>
+                                    <MenuItem>
+                                        <Link
+                                            to={`/task/${notification?.notification?.id}`}
+                                        >
+                                            New task -{" "}
+                                            {notification?.notification?.id}
+                                        </Link>
+                                    </MenuItem>
+                                </>
+                            ))
+                        )}
                     </MenuList>
                 </Menu>
                 <Menu>
