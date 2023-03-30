@@ -3,16 +3,16 @@ import {
     Avatar,
     Badge,
     Box,
-    Center,
+    Button,
     Divider,
     Flex,
     Link,
-    StackDivider,
     Text,
     Tooltip,
 } from "@chakra-ui/react";
 import { useTasks } from "../services/tasks";
 import { Link as ReachLink } from "react-router-dom";
+import { FaTrash } from "react-icons/fa";
 
 const KanbanView = () => {
     const {
@@ -20,12 +20,20 @@ const KanbanView = () => {
         getMyCreatedTasks,
         departmentToDoTasks,
         getMyToDoTasks,
+        getMyAssignedTasks,
+        myAssignedTasks,
+        deleteTask,
     } = useTasks();
 
     useEffect(() => {
         getMyCreatedTasks();
         getMyToDoTasks();
+        getMyAssignedTasks();
     }, []);
+
+    const deleteTaskHandler = (id) => {
+        deleteTask(id);
+    };
 
     return (
         <div>
@@ -67,7 +75,21 @@ const KanbanView = () => {
                                         : "3px solid #f0bb6b"
                                 }
                             >
-                                <Box p="6">
+                                <Box position={"relative"} p="6">
+                                    {myTask.status === "Finished" && (
+                                        <Button
+                                            position={"absolute"}
+                                            right="20px"
+                                            colorScheme="red"
+                                            size="sm"
+                                            onClick={() =>
+                                                deleteTaskHandler(myTask.id)
+                                            }
+                                            leftIcon={<FaTrash />}
+                                        >
+                                            Delete
+                                        </Button>
+                                    )}
                                     <Link
                                         as={ReachLink}
                                         to={`/task/${myTask.id}`}
@@ -100,6 +122,7 @@ const KanbanView = () => {
                                                     {myTask.status}
                                                 </Badge>
                                             )}
+
                                             <Text
                                                 ml="2"
                                                 textTransform="uppercase"
@@ -308,7 +331,118 @@ const KanbanView = () => {
                         My Tasks
                     </Text>
                     <Divider borderColor={"gray.800"} />
-                    <Text mt={"4"}></Text>
+
+                    {myAssignedTasks.map((myAssignedTask) => (
+                        <Tooltip placement="top" label={myAssignedTask.type}>
+                            <Box
+                                mt={"2.5"}
+                                borderWidth="1px"
+                                borderRadius="lg"
+                                overflow="hidden"
+                                bg="white"
+                                borderColor="gray.200"
+                                borderBottom={
+                                    myAssignedTask.type === "Urgent"
+                                        ? "3px solid #ff5f67"
+                                        : myAssignedTask.type ===
+                                          "High priority"
+                                        ? "3px solid #5b9e7f"
+                                        : myAssignedTask.type === "Low priority"
+                                        ? "3px solid #978ae6"
+                                        : "3px solid #f0bb6b"
+                                }
+                            >
+                                <Box p="6">
+                                    <Link
+                                        as={ReachLink}
+                                        to={`/task/${myAssignedTask.id}`}
+                                    >
+                                        <Box d="flex" alignItems="baseline">
+                                            {myAssignedTask.status ===
+                                            "Waiting for assignee" ? (
+                                                <Badge
+                                                    borderRadius="full"
+                                                    px="2"
+                                                    colorScheme="red"
+                                                >
+                                                    {myAssignedTask.status}
+                                                </Badge>
+                                            ) : myAssignedTask.status ===
+                                              "In progress" ? (
+                                                <Badge
+                                                    borderRadius="full"
+                                                    px="2"
+                                                    colorScheme="blue"
+                                                >
+                                                    {myAssignedTask.status}
+                                                </Badge>
+                                            ) : (
+                                                <Badge
+                                                    borderRadius="full"
+                                                    px="2"
+                                                    colorScheme="teal"
+                                                >
+                                                    {myAssignedTask.status}
+                                                </Badge>
+                                            )}
+                                            <Text
+                                                ml="2"
+                                                textTransform="uppercase"
+                                                fontSize="sm"
+                                                fontWeight="bold"
+                                                color="gray.500"
+                                            >
+                                                {myAssignedTask.department}
+                                            </Text>
+                                        </Box>
+                                        <Box mt="4">
+                                            <Text
+                                                fontWeight="bold"
+                                                fontSize="2xl"
+                                            >
+                                                {myAssignedTask.title}
+                                            </Text>
+                                            <Text mt="2" color="gray.600">
+                                                {myAssignedTask.description.substring(
+                                                    0,
+                                                    40
+                                                )}
+                                                ...
+                                            </Text>
+                                        </Box>
+                                    </Link>
+                                    <Divider mt={"5px"} />
+                                    <Flex
+                                        mt="4"
+                                        alignItems="center"
+                                        justifyContent="space-between"
+                                        color="gray.600"
+                                    >
+                                        <Flex alignItems="center">
+                                            <Avatar
+                                                color={"white"}
+                                                size="sm"
+                                                name={`${myAssignedTask.user.name}`}
+                                                bg="gray.400"
+                                            />
+                                            <Text
+                                                ml="2"
+                                                fontSize="sm"
+                                                fontWeight="medium"
+                                            >
+                                                Author:{" "}
+                                                {myAssignedTask.user.name}
+                                            </Text>
+                                        </Flex>
+                                        <Text fontSize="sm" fontWeight="medium">
+                                            Department:{" "}
+                                            {myAssignedTask.user.department}
+                                        </Text>
+                                    </Flex>
+                                </Box>
+                            </Box>
+                        </Tooltip>
+                    ))}
                 </Box>
             </Flex>
         </div>

@@ -33,8 +33,52 @@ class TaskController extends Controller
         return response($tasks);
     }
 
-    public function getMyToDoTasks($department){
-        $tasks = Task::where('department',$department)->orderBy('created_at', 'desc')->with('user')->get();
+    public function getMyToDoTasks($department,$userId){
+        $tasks = Task::where('department',$department)->where('assignee','=',null)->orderBy('created_at', 'desc')->with('user')->get();
         return response($tasks);
     }
+
+    public function getMyAssignedTasks($userId){
+        $tasks = Task::where('assignee',$userId)->where('status',"!=","Finished")->orderBy('created_at', 'desc')->with('user')->get();
+        return response($tasks);
+    }
+
+    public function getTaskById($taskId){
+        $task = Task::where('id',$taskId)->with('user')->firstOrFail();
+        $assignee=User::where('id', $task->assignee)->first();
+        return response(["task"=>$task,"assignee"=>$assignee]);
+    }
+
+    public function updateTaskToAssigneeAndInProgress(Request $request,$taskId){
+        $attr = $request->validate([
+            'assignee' => 'required',
+            'status' => 'required'
+        ]);
+
+        Task::where('id', $taskId)->update([
+            'assignee' =>  $attr['assignee'],
+            'status' =>  $attr['status'],
+        ]);
+            
+        return response()->json(["success"=>"successfully updated"]);
+    }
+    
+    public function updateTaskToFinished(Request $request,$taskId){
+        Task::where('id', $taskId)->update([
+            'status' => "Finished",
+        ]);
+            
+        return response()->json(["success"=>"successfully finished"]);
+    }
+
+    public function deleteTask(Request $request,$taskId){
+        $task = Task::find($taskId);
+        if ($task) {
+          $task->delete();
+          return response()->json(['message' => 'Task deleted successfully']);
+        } else {
+          return response()->json(['message' => 'Task not found'], 404);
+        }
+    }
+
 }

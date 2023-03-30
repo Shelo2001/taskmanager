@@ -25,9 +25,14 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/logout', [AuthenticationController::class, 'logout']);
     Route::post('/task/create', [TaskController::class, 'createTask']);
     Route::get('/tasks/mycreated/{userId}', [TaskController::class, 'getMyCreatedTasks']);
-    Route::get('/tasks/{department}', [TaskController::class, 'getMyToDoTasks']);
+    Route::get('/tasks/get/{taskId}', [TaskController::class, 'getTaskById']);
+    Route::get('/tasks/myassigned/{userId}', [TaskController::class, 'getMyAssignedTasks']);
+    Route::get('/tasks/{department}/{userId}', [TaskController::class, 'getMyToDoTasks']);
     Route::get('/users/all', [AuthenticationController::class, 'getAllUsers']);
     Route::get('/users/{user}', [AuthenticationController::class, 'getById']);
+    Route::post('/tasks/update/{taskId}', [TaskController::class, 'updateTaskToAssigneeAndInProgress']);
 
 });
 Route::get('/departments', [DepartmentController::class, 'getDepartments']);
+Route::post('/tasks/finish/{taskId}', [TaskController::class, 'updateTaskToFinished']);
+Route::delete('/tasks/delete/{taskId}', [TaskController::class, 'deleteTask']);
