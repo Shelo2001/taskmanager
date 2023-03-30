@@ -1,6 +1,16 @@
-import { Alert, AlertIcon, Box, Button, Divider, Text } from "@chakra-ui/react";
+import {
+    Alert,
+    AlertIcon,
+    Box,
+    Button,
+    Divider,
+    Flex,
+    Text,
+    Textarea,
+} from "@chakra-ui/react";
 import React, { useEffect } from "react";
 import { useParams } from "react-router";
+import { Link } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import { useTasks } from "../services/tasks";
 
@@ -153,7 +163,36 @@ const Task = () => {
                                 )}
                             </Box>
                         </Box>
-                        <Box w="60%" minHeight={"80vh"}></Box>
+                        <Box w="60%" minHeight={"80vh"}>
+                            <Flex>
+                                <Box marginRight={10}>
+                                    <Link to={`/task/${task.id}`}>
+                                        <Text fontWeight="bold">
+                                            Task Overview
+                                        </Text>
+                                    </Link>
+                                </Box>
+                                <Box marginLeft={10} marginRight={10}>
+                                    <Link to={`/chat/${task.id}`}>
+                                        <Text fontWeight="bold">Chat</Text>
+                                    </Link>
+                                </Box>
+                            </Flex>
+                            <Divider
+                                mt={"20px"}
+                                borderColor="black"
+                                mb={"20px"}
+                            />
+                            <Flex>
+                                <Textarea
+                                    border={"4px solid #e5eaf2"}
+                                    maxH={"70vh"}
+                                    value={task.description}
+                                >
+                                    {task.description}
+                                </Textarea>
+                            </Flex>
+                        </Box>
                     </>
                 )}
             </Box>

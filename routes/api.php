@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ChatController;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\AuthenticationController;
@@ -36,3 +37,4 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 Route::get('/departments', [DepartmentController::class, 'getDepartments']);
 Route::post('/tasks/finish/{taskId}', [TaskController::class, 'updateTaskToFinished']);
 Route::delete('/tasks/delete/{taskId}', [TaskController::class, 'deleteTask']);
+Route::post('/chat/{chatId}', [ChatController::class, 'sendMessage']);

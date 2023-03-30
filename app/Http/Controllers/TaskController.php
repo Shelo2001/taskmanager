@@ -27,7 +27,7 @@ class TaskController extends Controller
         ]);
 
 
-            event(new NotificationsForDepartmentsEvent($attr['department'], "New task in your department"));
+        event(new NotificationsForDepartmentsEvent($attr['department'], $task));
         
         return response($task,201);
     }

@@ -3,6 +3,7 @@ import { createBrowserRouter, Link, Navigate } from "react-router-dom";
 import DefaultLayout from "./components/DefaultLayout";
 import GuestLayout from "./components/GuestLayout";
 import AdminUsers from "./pages/AdminUsers";
+import Chat from "./pages/Chat";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import NotFound from "./pages/NotFound";
@@ -33,6 +34,10 @@ const router = createBrowserRouter([
             {
                 path: "/tasks/table",
                 element: <TableView />,
+            },
+            {
+                path: "/chat/:id",
+                element: <Chat />,
             },
         ],
     },

@@ -13,6 +13,7 @@ import {
 } from "@chakra-ui/react";
 import { useUsers } from "../services/users";
 import Pusher from "pusher-js";
+import { Link } from "react-router-dom";
 
 const Navbar = () => {
     const { logout } = useUsers();
@@ -28,6 +29,7 @@ const Navbar = () => {
 
         const channel = pusher.subscribe(`department.${user?.department}`);
         channel.bind(`notification`, function (data) {
+            console.log(data);
             setNotifications((prevNotifications) => [
                 ...prevNotifications,
                 data,
@@ -56,7 +58,14 @@ const Navbar = () => {
                             {notifications.length === 0
                                 ? "No notifications yet"
                                 : notifications.map((notification) => (
-                                      <p>{notification.notification}</p>
+                                      <MenuItem>
+                                          <Link
+                                              to={`/task/${notification?.notification?.id}`}
+                                          >
+                                              New task -{" "}
+                                              {notification?.notification?.id}
+                                          </Link>
+                                      </MenuItem>
                                   ))}
                         </p>
                     </MenuList>
