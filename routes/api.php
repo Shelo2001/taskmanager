@@ -38,3 +38,5 @@ Route::get('/departments', [DepartmentController::class, 'getDepartments']);
 Route::post('/tasks/finish/{taskId}', [TaskController::class, 'updateTaskToFinished']);
 Route::delete('/tasks/delete/{taskId}', [TaskController::class, 'deleteTask']);
 Route::post('/chat/{chatId}', [ChatController::class, 'sendMessage']);
+Route::post('/users/active/{user}', [AuthenticationController::class, 'updateUserToActive']);
+Route::post('/users/nonactive/{user}', [AuthenticationController::class, 'updateUserToNotActive']);

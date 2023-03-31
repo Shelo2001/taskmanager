@@ -72,6 +72,18 @@ export const useUsers = create(
             );
             set({ user: await res.data, loading: false });
         },
+        updateToActive: async (id) => {
+            await axios.post(
+                `${import.meta.env.VITE_BASE_API_URL}/users/active/${id}`
+            );
+            window.location.reload();
+        },
+        updateToNonActive: async (id) => {
+            await axios.post(
+                `${import.meta.env.VITE_BASE_API_URL}/users/nonactive/${id}`
+            );
+            window.location.reload();
+        },
         createUser: async (data) => {
             const res = await axios.post(
                 "${import.meta.env.VITE_BASE_API_URL}/users",

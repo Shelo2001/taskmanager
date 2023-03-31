@@ -17,12 +17,15 @@ import {
     ModalFooter,
     useDisclosure,
     Button,
+    Box,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
 import Sidemenu from "../components/Sidemenu";
 import { useUsers } from "../services/users";
 import { AiOutlineClose, AiOutlineCheck } from "react-icons/ai";
+import Chart from "react-apexcharts";
+
 function AdminUsers() {
     const {
         users,
@@ -30,6 +33,8 @@ function AdminUsers() {
         getAllUsers,
         getUserById,
         loading,
+        updateToActive,
+        updateToNonActive,
     } = useUsers();
     const { isOpen, onOpen, onClose } = useDisclosure();
     const [id, setId] = useState(null);
@@ -38,9 +43,51 @@ function AdminUsers() {
         getAllUsers();
     }, []);
 
+    const departments = {};
+    users.forEach(function (user) {
+        departments[user?.department] =
+            (departments[user?.department] || 0) + 1;
+    });
+
+    const departmentNames = [];
+    const count = [];
+    for (var key in departments) {
+        departmentNames.push(key);
+        count.push(departments[key]);
+    }
+
+    const deactivateHandler = (id) => {
+        updateToNonActive(id);
+    };
+    const activateHandler = (id) => {
+        updateToActive(id);
+    };
+
     return (
         <div>
             <Navbar />
+
+            <Box float={"right"} mr={"100px"} mt={"50px"} mb={"10"}>
+                <Chart
+                    type="pie"
+                    width={1000}
+                    height={400}
+                    series={count}
+                    options={{
+                        labels: departmentNames,
+                    }}
+                ></Chart>
+            </Box>
+            <Button
+                mt={"10"}
+                mb="10"
+                ml={"20%"}
+                colorScheme={"blue"}
+                borderRadius="full"
+            >
+                + Create new user
+            </Button>
+
             <Table
                 marginTop={"10"}
                 variant="simple"
@@ -104,21 +151,38 @@ function AdminUsers() {
             >
                 <ModalOverlay />
                 <ModalContent>
-                    <ModalHeader>Create your account</ModalHeader>
+                    <ModalHeader>User actions</ModalHeader>
                     <ModalCloseButton />
                     {loading ? (
                         <h1>Loading...</h1>
                     ) : (
                         <>
-                            <ModalBody pb={6}>{adminUser.name}</ModalBody>
+                            <ModalBody pb={6}>
+                                {adminUser.is_active
+                                    ? "Deactivate "
+                                    : "Activate "}
+                                {adminUser.name}?
+                            </ModalBody>
 
                             <ModalFooter>
                                 {adminUser.is_active ? (
-                                    <Button colorScheme="red" mr={3}>
+                                    <Button
+                                        onClick={() =>
+                                            deactivateHandler(adminUser.id)
+                                        }
+                                        colorScheme="red"
+                                        mr={3}
+                                    >
                                         Deactivate
                                     </Button>
                                 ) : (
-                                    <Button colorScheme="teal" mr={3}>
+                                    <Button
+                                        onClick={() =>
+                                            activateHandler(adminUser.id)
+                                        }
+                                        colorScheme="teal"
+                                        mr={3}
+                                    >
                                         Activate
                                     </Button>
                                 )}

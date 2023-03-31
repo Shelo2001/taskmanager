@@ -1,5 +1,12 @@
 import {
     Alert,
+    AlertDialog,
+    AlertDialogBody,
+    AlertDialogCloseButton,
+    AlertDialogContent,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogOverlay,
     AlertIcon,
     Box,
     Button,
@@ -8,8 +15,9 @@ import {
     Text,
     Textarea,
     useBreakpointValue,
+    useDisclosure,
 } from "@chakra-ui/react";
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { useParams } from "react-router";
 import { Link } from "react-router-dom";
 import Navbar from "../components/Navbar";
@@ -63,6 +71,9 @@ const Task = () => {
         lg: "20%",
         xl: "20%",
     });
+
+    const { isOpen, onOpen, onClose } = useDisclosure();
+    const cancelRef = useRef();
 
     return (
         <div>
@@ -172,21 +183,99 @@ const Task = () => {
                                         You can't assign your task
                                     </Button>
                                 ) : assignee?.name ? (
-                                    <Button
-                                        onClick={updateTaskToFinishedHandler}
-                                        colorScheme={"blue"}
-                                        w="100%"
-                                    >
-                                        Finish Task
-                                    </Button>
+                                    <>
+                                        <Button
+                                            onClick={onOpen}
+                                            colorScheme={"blue"}
+                                            w="100%"
+                                        >
+                                            Finish Task
+                                        </Button>
+                                        <AlertDialog
+                                            motionPreset="slideInBottom"
+                                            leastDestructiveRef={cancelRef}
+                                            onClose={onClose}
+                                            isOpen={isOpen}
+                                            isCentered
+                                        >
+                                            <AlertDialogOverlay />
+
+                                            <AlertDialogContent>
+                                                <AlertDialogHeader>
+                                                    Finish Task
+                                                </AlertDialogHeader>
+                                                <AlertDialogCloseButton />
+                                                <AlertDialogBody>
+                                                    Are you sure you want to
+                                                    finish task?
+                                                </AlertDialogBody>
+                                                <AlertDialogFooter>
+                                                    <Button
+                                                        ref={cancelRef}
+                                                        onClick={onClose}
+                                                    >
+                                                        No
+                                                    </Button>
+                                                    <Button
+                                                        colorScheme="blue"
+                                                        ml={3}
+                                                        onClick={
+                                                            updateTaskToFinishedHandler
+                                                        }
+                                                    >
+                                                        Yes
+                                                    </Button>
+                                                </AlertDialogFooter>
+                                            </AlertDialogContent>
+                                        </AlertDialog>
+                                    </>
                                 ) : (
-                                    <Button
-                                        onClick={assignTaskHandler}
-                                        colorScheme={"blue"}
-                                        w="100%"
-                                    >
-                                        Assign task
-                                    </Button>
+                                    <>
+                                        <Button
+                                            onClick={onOpen}
+                                            colorScheme={"blue"}
+                                            w="100%"
+                                        >
+                                            Assign task
+                                        </Button>
+                                        <AlertDialog
+                                            motionPreset="slideInBottom"
+                                            leastDestructiveRef={cancelRef}
+                                            onClose={onClose}
+                                            isOpen={isOpen}
+                                            isCentered
+                                        >
+                                            <AlertDialogOverlay />
+
+                                            <AlertDialogContent>
+                                                <AlertDialogHeader>
+                                                    Assign Task
+                                                </AlertDialogHeader>
+                                                <AlertDialogCloseButton />
+                                                <AlertDialogBody>
+                                                    Are you sure you want to
+                                                    assign task?
+                                                </AlertDialogBody>
+                                                <AlertDialogFooter>
+                                                    <Button
+                                                        ref={cancelRef}
+                                                        onClick={onClose}
+                                                    >
+                                                        No
+                                                    </Button>
+                                                    <Button
+                                                        colorScheme="blue"
+                                                        ml={3}
+                                                        onClick={
+                                                            assignTaskHandler
+                                                        }
+                                                    >
+                                                        Yes
+                                                    </Button>
+                                                </AlertDialogFooter>
+                                            </AlertDialogContent>
+                                        </AlertDialog>
+                                    </>
                                 )}
                             </Box>
                         </Box>

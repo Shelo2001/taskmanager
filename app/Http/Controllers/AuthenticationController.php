@@ -66,6 +66,22 @@ class AuthenticationController extends Controller
         return response($user);
     }
 
+    public function updateUserToActive(Request $request, $user){
+        $user = User::where('id',$user)->update([
+            'is_active' => true,
+        ]);
+
+        return response()->json(["success"=>true]);
+    }
+
+    public function updateUserToNotActive(Request $request, $user){
+        $user = User::where('id',$user)->update([
+            'is_active' => false,
+        ]);
+
+        return response()->json(["success"=>true]);
+    }
+
     public function getAllUsers(){
         $users=User::all();
 
