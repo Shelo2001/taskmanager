@@ -63,7 +63,11 @@ class TaskController extends Controller
             'assignee' =>  $attr['assignee'],
             'status' =>  $attr['status'],
         ]);
-            
+        
+        $task = Task::where('id', $taskId)->first();
+
+        event(new NotificationsForDepartmentsEvent($task->department, $task));
+
         return response()->json(["success"=>"successfully updated"]);
     }
     

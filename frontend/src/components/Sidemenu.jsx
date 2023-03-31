@@ -7,17 +7,21 @@ import {
     Stack,
     Text,
     useDisclosure,
+    useBreakpointValue,
 } from "@chakra-ui/react";
 import { AiFillBehanceSquare } from "react-icons/ai";
 import { Link } from "react-router-dom";
 
 function Sidemenu() {
     const { isOpen, onOpen, onClose } = useDisclosure();
-
+    const display = useBreakpointValue({
+        base: "none",
+        xl: "block",
+    });
     const user = JSON.parse(localStorage.getItem("user"));
 
     return (
-        <Box zIndex={"10000"}>
+        <Box display={display} zIndex={"10000"}>
             <IconButton
                 aria-label="Toggle side menu"
                 icon={<AiFillBehanceSquare />}

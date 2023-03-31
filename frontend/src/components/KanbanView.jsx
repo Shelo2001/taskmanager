@@ -9,6 +9,7 @@ import {
     Link,
     Text,
     Tooltip,
+    useBreakpointValue,
 } from "@chakra-ui/react";
 import { useTasks } from "../services/tasks";
 import { Link as ReachLink } from "react-router-dom";
@@ -34,15 +35,31 @@ const KanbanView = () => {
     const deleteTaskHandler = (id) => {
         deleteTask(id);
     };
-
+    const direction = useBreakpointValue({
+        base: "column",
+        md: "column",
+        lg: "row",
+        xl: "row",
+    });
+    const tasksWidth = useBreakpointValue({
+        base: "80%",
+        md: "80%",
+        lg: "30%",
+    });
     return (
         <div>
-            <Flex marginTop={"10"} w={"80%"} float="right">
+            <Flex
+                flexDirection={direction}
+                marginTop={"10"}
+                w={"80%"}
+                gap={"20px"}
+                float="right"
+            >
                 <Box
                     p="4"
                     maxH="700px"
                     overflow="auto"
-                    w="30%"
+                    w={tasksWidth}
                     bgColor="gray.200"
                     mr="4"
                     borderRadius="md"
@@ -184,7 +201,7 @@ const KanbanView = () => {
                     p="4"
                     maxH="700px"
                     overflow="auto"
-                    w="30%"
+                    w={tasksWidth}
                     bgColor="gray.200"
                     mr="4"
                     borderRadius="md"
@@ -318,7 +335,7 @@ const KanbanView = () => {
                     p="4"
                     maxH="700px"
                     overflow="auto"
-                    w="30%"
+                    w={tasksWidth}
                     bgColor="gray.200"
                     borderRadius="md"
                 >

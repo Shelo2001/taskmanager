@@ -7,6 +7,7 @@ import {
     Flex,
     Text,
     Textarea,
+    useBreakpointValue,
 } from "@chakra-ui/react";
 import React, { useEffect } from "react";
 import { useParams } from "react-router";
@@ -43,10 +44,36 @@ const Task = () => {
         updateTaskToFinished(id);
     };
 
+    const direction = useBreakpointValue({
+        base: "column",
+        md: "column",
+        lg: "row",
+        xl: "row",
+    });
+    const overviewWidth = useBreakpointValue({
+        base: "100%",
+        md: "100%",
+        lg: "20%",
+        xl: "20%",
+    });
+
+    const ml = useBreakpointValue({
+        base: "0%",
+        md: "0%",
+        lg: "20%",
+        xl: "20%",
+    });
+
     return (
         <div>
             <Navbar />
-            <Box ml={"20%"} display="flex" gap={"50px"} alignItems="center">
+            <Box
+                ml={ml}
+                display="flex"
+                flexDirection={direction}
+                gap={"50px"}
+                alignItems="center"
+            >
                 {taskNotFoundError ? (
                     <Alert mr={"100px"} status="error">
                         <AlertIcon />
@@ -54,7 +81,7 @@ const Task = () => {
                     </Alert>
                 ) : (
                     <>
-                        <Box w="20%" minHeight={"80vh"}>
+                        <Box w={overviewWidth} minHeight={"80vh"}>
                             <Box
                                 borderWidth="1px"
                                 borderRadius="lg"
