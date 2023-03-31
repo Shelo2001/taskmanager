@@ -10,6 +10,7 @@ import NotFound from "./pages/NotFound";
 import TableView from "./pages/TableView";
 import Task from "./pages/Task";
 import CreateUser from "./pages/CreateUser";
+import Samples from "./pages/Samples";
 
 const router = createBrowserRouter([
     {
@@ -53,6 +54,10 @@ const router = createBrowserRouter([
             {
                 path: "/login",
                 element: <Login />,
+            },
+            {
+                path: "/samples",
+                element: <Samples />,
             },
         ],
     },
