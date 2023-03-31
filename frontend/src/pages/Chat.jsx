@@ -55,6 +55,8 @@ const Chat = () => {
         });
     };
 
+    console.log(messages);
+
     return (
         <div>
             <Box position="absolute" top="2rem" left="2rem">

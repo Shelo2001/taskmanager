@@ -30,7 +30,7 @@ const KanbanView = () => {
         getMyCreatedTasks();
         getMyToDoTasks();
         getMyAssignedTasks();
-    }, []);
+    }, [getMyToDoTasks]);
 
     const deleteTaskHandler = (id) => {
         deleteTask(id);
