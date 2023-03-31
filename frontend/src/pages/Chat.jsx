@@ -41,7 +41,7 @@ const Chat = () => {
             setMessages((prevMessages) => [...prevMessages, data]);
         });
     }, []);
-
+    const user = JSON.parse(localStorage.getItem("user"));
     const handleNewMessage = () => {
         const user = JSON.parse(localStorage.getItem("user"));
 
@@ -99,12 +99,23 @@ const Chat = () => {
                     {messages.map((message) => (
                         <HStack
                             key={message.id}
-                            bg="white"
+                            bg={message.user == user.name ? "white" : "#3182ce"}
+                            color={message.user != user.name && "white"}
                             p={2}
                             borderRadius="lg"
+                            justifyContent={
+                                message.user == user.name
+                                    ? "flex-end"
+                                    : "flex-start"
+                            }
+                            alignSelf={
+                                message.user == user.name
+                                    ? "flex-end"
+                                    : "flex-start"
+                            }
                         >
-                            <Text fontWeight="bold">{message.author}: </Text>
-                            <Text>{message.text}</Text>
+                            <Text fontWeight="bold">{message.user}: </Text>
+                            <Text>{message.message}</Text>
                         </HStack>
                     ))}
                     <Box ref={messagesEndRef} />
