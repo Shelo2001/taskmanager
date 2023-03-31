@@ -129,7 +129,11 @@ const Login = () => {
                     </form>
                 </Box>
             </Stack>
-            <Box></Box>
+            <Box>
+                <a target="_blank" href="/samples">
+                    Sample users(you can see sample users here)
+                </a>
+            </Box>
         </Flex>
     );
 };

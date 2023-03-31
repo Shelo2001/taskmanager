@@ -25,6 +25,7 @@ import Sidemenu from "../components/Sidemenu";
 import { useUsers } from "../services/users";
 import { AiOutlineClose, AiOutlineCheck } from "react-icons/ai";
 import Chart from "react-apexcharts";
+import { Link } from "react-router-dom";
 
 function AdminUsers() {
     const {
@@ -35,6 +36,7 @@ function AdminUsers() {
         loading,
         updateToActive,
         updateToNonActive,
+        createUser,
     } = useUsers();
     const { isOpen, onOpen, onClose } = useDisclosure();
     const [id, setId] = useState(null);
@@ -78,15 +80,17 @@ function AdminUsers() {
                     }}
                 ></Chart>
             </Box>
-            <Button
-                mt={"10"}
-                mb="10"
-                ml={"20%"}
-                colorScheme={"blue"}
-                borderRadius="full"
-            >
-                + Create new user
-            </Button>
+            <Link to={`/admin/create`}>
+                <Button
+                    mt={"10"}
+                    mb="10"
+                    ml={"20%"}
+                    colorScheme={"blue"}
+                    borderRadius="full"
+                >
+                    + Create new user
+                </Button>
+            </Link>
 
             <Table
                 marginTop={"10"}

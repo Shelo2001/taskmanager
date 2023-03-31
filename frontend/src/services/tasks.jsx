@@ -27,6 +27,11 @@ export const useTasks = create(
                 window.location.href = "/";
             } catch (error) {
                 set({ taskError: error.response.data.message });
+                setTimeout(() => {
+                    set({
+                        taskError: null,
+                    });
+                }, 3000);
             }
         },
         getMyCreatedTasks: async () => {

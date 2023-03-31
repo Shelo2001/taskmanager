@@ -9,6 +9,7 @@ import Login from "./pages/Login";
 import NotFound from "./pages/NotFound";
 import TableView from "./pages/TableView";
 import Task from "./pages/Task";
+import CreateUser from "./pages/CreateUser";
 
 const router = createBrowserRouter([
     {
@@ -38,6 +39,10 @@ const router = createBrowserRouter([
             {
                 path: "/chat/:id",
                 element: <Chat />,
+            },
+            {
+                path: "/admin/create",
+                element: <CreateUser />,
             },
         ],
     },

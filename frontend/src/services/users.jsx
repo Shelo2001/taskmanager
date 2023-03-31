@@ -31,6 +31,31 @@ export const useUsers = create(
                         (await error?.response?.data?.error) ||
                         (await error?.response?.data?.message),
                 });
+                setTimeout(() => {
+                    set({
+                        errorUser: null,
+                    });
+                }, 3000);
+            }
+        },
+        createUser: async (data) => {
+            try {
+                await axios.post(
+                    `${import.meta.env.VITE_BASE_API_URL}/register`,
+                    data
+                );
+                window.location.href = "/admin";
+            } catch (error) {
+                set({
+                    errorUser:
+                        (await error?.response?.data?.error) ||
+                        (await error?.response?.data?.message),
+                });
+                setTimeout(() => {
+                    set({
+                        errorUser: null,
+                    });
+                }, 3000);
             }
         },
         logout: async (data) => {
@@ -83,13 +108,6 @@ export const useUsers = create(
                 `${import.meta.env.VITE_BASE_API_URL}/users/nonactive/${id}`
             );
             window.location.reload();
-        },
-        createUser: async (data) => {
-            const res = await axios.post(
-                "${import.meta.env.VITE_BASE_API_URL}/users",
-                data
-            );
-            set({ user: await res.data.user, token: await res.data.token });
         },
     }))
 );
