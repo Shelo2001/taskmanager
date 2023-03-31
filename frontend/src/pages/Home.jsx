@@ -22,11 +22,14 @@ import Navbar from "../components/Navbar";
 import { useDepartments } from "../services/departments";
 import { useTasks } from "../services/tasks";
 import Pusher from "pusher-js";
+import { useNavigate } from "react-router";
 
 const Home = () => {
     const { getDepartments, departments } = useDepartments();
     const { createTask, taskError } = useTasks();
     const { isOpen, onOpen, onClose } = useDisclosure();
+
+    const navigate = useNavigate();
 
     const [departmentTask, setDepartmentTask] = useState("");
     const [title, setTitle] = useState("");

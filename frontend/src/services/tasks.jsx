@@ -114,10 +114,11 @@ export const useTasks = create(
             );
             window.location.reload();
         },
-        updateTaskToFinished: async (id) => {
+        updateTaskToFinished: async (id, data) => {
             const token = localStorage.getItem("token");
             const res = await axios.post(
                 `${import.meta.env.VITE_BASE_API_URL}/tasks/finish/${id}`,
+                data,
                 {
                     headers: {
                         Authorization: `Bearer ${token}`,

@@ -16,11 +16,13 @@ class NotificationsForDepartmentsEvent implements ShouldBroadcast
 
     public $department;
     public $notification;
+    public $message;
 
-    public function __construct($department,$notification)
+    public function __construct($department,$notification,$message)
     {
         $this->department = $department;
         $this->notification = $notification;
+        $this->message = $message;
     }
 
     /**

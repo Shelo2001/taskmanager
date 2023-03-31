@@ -27,7 +27,7 @@ class TaskController extends Controller
         ]);
 
 
-        event(new NotificationsForDepartmentsEvent($attr['department'], $task));
+        event(new NotificationsForDepartmentsEvent($attr['department'], $task, "Created task"));
         
         return response($task,201);
     }
@@ -56,26 +56,32 @@ class TaskController extends Controller
     public function updateTaskToAssigneeAndInProgress(Request $request,$taskId){
         $attr = $request->validate([
             'assignee' => 'required',
-            'status' => 'required'
+            'status' => 'required',
+            'taskDepartment' => 'required'
         ]);
 
         Task::where('id', $taskId)->update([
             'assignee' =>  $attr['assignee'],
             'status' =>  $attr['status'],
         ]);
-        
         $task = Task::where('id', $taskId)->first();
-
-        event(new NotificationsForDepartmentsEvent($task->department, $task));
+        event(new NotificationsForDepartmentsEvent($attr['taskDepartment'], $task, "In progress"));
 
         return response()->json(["success"=>"successfully updated"]);
     }
     
     public function updateTaskToFinished(Request $request,$taskId){
+        $attr = $request->validate([
+            'taskDepartment'=>"required"
+        ]);
+
         Task::where('id', $taskId)->update([
             'status' => "Finished",
         ]);
-            
+
+        $task = Task::where('id', $taskId)->first();
+        event(new NotificationsForDepartmentsEvent($attr['taskDepartment'], $task, "Finished task"));  
+
         return response()->json(["success"=>"successfully finished"]);
     }
 

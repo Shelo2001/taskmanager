@@ -12,7 +12,7 @@ import {
 } from "@chakra-ui/react";
 import { useUsers } from "../services/users";
 import Pusher from "pusher-js";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Navbar = () => {
     const { logout } = useUsers();
@@ -27,7 +27,6 @@ const Navbar = () => {
 
         const channel = pusher.subscribe(`department.${user?.department}`);
         channel.bind(`notification`, function (data) {
-            console.log(data);
             setNotifications((prevNotifications) => [
                 ...prevNotifications,
                 data,
@@ -71,7 +70,7 @@ const Navbar = () => {
                                         <Link
                                             to={`/task/${notification?.notification?.id}`}
                                         >
-                                            New task -{" "}
+                                            {notification.message} -{" "}
                                             {notification?.notification?.id}
                                         </Link>
                                     </MenuItem>

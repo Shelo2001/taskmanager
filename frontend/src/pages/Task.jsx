@@ -44,12 +44,16 @@ const Task = () => {
         let data = {
             assignee: user.id,
             status: "In progress",
+            taskDepartment: task?.user?.department,
         };
         updateTaskInProgress(id, data);
     };
 
     const updateTaskToFinishedHandler = () => {
-        updateTaskToFinished(id);
+        let data = {
+            taskDepartment: task?.user?.department,
+        };
+        updateTaskToFinished(id, data);
     };
 
     const direction = useBreakpointValue({
